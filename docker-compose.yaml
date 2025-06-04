@@ -1,0 +1,10 @@
+services:
+  web:
+    image: php:8.4-apache
+    container_name: php_apache_sqlite
+    ports:
+      - "8080:80"
+    volumes:
+      # Mount current directory to container
+      - ./:/var/www/html 
+    restart: unless-stopped
