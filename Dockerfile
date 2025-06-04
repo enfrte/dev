@@ -23,4 +23,4 @@ RUN apt-get purge -y g++ \
 WORKDIR /var/www/html
 
 # Change the owner of the container document root
-RUN chown -R www-data:www-data /var/www/html
+RUN chown -R $USER:$USER /var/www/html
