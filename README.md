@@ -2,4 +2,6 @@
 
 Test: http://localhost:8080/
 
-Includes composer, xdebug, sqlite
+Includes php composer, xdebug, sqlite.
+
+Recommend Container Tools for VSCode https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-containers

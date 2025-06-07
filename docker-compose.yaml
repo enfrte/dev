@@ -1,10 +1,11 @@
 services:
   web:
-    image: php:8.4-apache
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: php_apache_sqlite
     ports:
       - "8080:80"
     volumes:
-      # Mount current directory to container
       - ./:/var/www/html 
     restart: unless-stopped
