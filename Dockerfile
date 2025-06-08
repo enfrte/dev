@@ -1,6 +1,12 @@
 # Use the official PHP 8.3 image with Apache pre-installed
 FROM php:8.3-apache
 
+# Declare build arguments
+# Check and adjust HOST_UID as needed - Linux: id -u
+# Check and adjust HOST_GID as needed - Linux: id -g
+ARG HOST_UID=1000 
+ARG HOST_GID=1000 
+
 # Switch to root user to perform package installations and system modifications
 USER root
 
@@ -23,7 +29,7 @@ RUN pecl install xdebug \
 # Copy a local shell script for installing Composer into the container
 COPY ./install-composer.sh ./
 
-# Run the Composer installer script and remove it afterwards to reduce image size
+# Run the Composer installer script and remove it afterwards
 RUN sh ./install-composer.sh && rm ./install-composer.sh
 
 # Clean up unnecessary tools and cache to reduce the final image size
@@ -45,8 +51,8 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 # Create a non-root user with specific UID and GID for safer container execution
 # Create a group with GID 1234
 # Create a user 'leon' with UID 1234 in that group
-RUN groupadd -g 1234 customgroup && \
-    useradd -m -u 1234 -g customgroup leon
+RUN groupadd -g ${HOST_GID} customgroup && \
+    useradd -m -u ${HOST_UID} -g customgroup leon
 
 # Switch to the non-root user for all following commands
 USER leon
