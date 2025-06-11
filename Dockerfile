@@ -54,6 +54,15 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 RUN groupadd -g ${HOST_GID} customgroup && \
     useradd -m -u ${HOST_UID} -g customgroup leon
 
+
+# Enable mod_rewrite and default site during build
+RUN a2enmod rewrite && \
+    a2ensite 000-default.conf
+
+# Insert a <Directory> block below the DocumentRoot directive in 000-default.conf
+# to explicitly allow .htaccess overrides under /var/www/html
+RUN sed -i '/DocumentRoot/a <Directory /var/www/html>\n    AllowOverride All\n</Directory>' /etc/apache2/sites-available/000-default.conf
+
 # Switch to the non-root user for all following commands
 USER leon
 
